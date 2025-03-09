@@ -13,7 +13,8 @@ print(convo_df)
 
 
     # Determine group sizes
-group_size = int(input("What size do you want the groups to be? (2-5)"))
+group_size = int(input("What size do you want the groups to be? (2-5)")) 
+
 
     # Number of participants
 num_participants = df.shape[0]
@@ -47,5 +48,3 @@ while len(participants) > 0:
 if len(pair) > 0:
     all_pairs.append(pair)
 
-
-#Change
