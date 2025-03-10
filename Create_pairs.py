@@ -56,9 +56,10 @@ while not new_pairs_found and tries < 10:
 
     while len(participants) > 0:
         if single == 1 and len(participants) == 2:
-            pair.sort()
-            all_pairs.add(tuple(pair))
-            pair = []
+            if group_size > 2:
+                pair.sort()
+                all_pairs.add(tuple(pair))
+                pair = []
             pair.append(participants.pop())
             pair.append(participants.pop())
         else:
