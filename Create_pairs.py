@@ -23,7 +23,8 @@ convo_df = pd.read_csv(convo)
 
 
     # Determine group sizes
-group_size = int(input("What size do you want the groups to be? (2-5)"))
+group_size = int(input("What size do you want the groups to be? (2-5)")) 
+
 
     # Number of participants
 num_participants = df.shape[0] # 0- rows & 1-columns
