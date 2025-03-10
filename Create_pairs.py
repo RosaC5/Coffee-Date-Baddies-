@@ -47,5 +47,39 @@ while len(participants) > 0:
 if len(pair) > 0:
     all_pairs.append(pair)
 
+new_pairs_txt = "Coffee Partner Lottery new pairs.txt"
+new_pairs_csv = "Coffee Partner Lottery new pairs.csv"
+all_pairs_csv = "Coffee Partner Lottery all pairs.csv"
 
-#Change
+with open(new_pairs_txt, "w", encoding="utf-8") as file:
+    file.write(all_pairs)
+
+# Save new groups to CSV 
+with open(new_pairs_csv, "w", newline="", encoding="utf-8") as file:
+    csvwriter = csv.writer(file, delimiter=DELIMITER) 
+
+    # Write header (for up to 5 people)
+    csvwriter.writerow([f"name{i+1}" for i in range(5)] + [f"email{i+1}" for i in range(5)])
+
+    # Write each group, padding smaller groups with empty strings
+    for group in new_pairs_csv:
+        padded_group = group + [""] * (5 - len(group))  # Ensures every row has 5 members
+        csvwriter.writerow(padded_group)
+
+print(f"✅ Groups saved to {new_pairs_csv}")
+
+# Save new groups to CSV with padding
+with open(new_pairs_csv, "w", newline="", encoding="utf-8") as file:
+    csvwriter = csv.writer(file, delimiter=DELIMITER)
+
+    # Write header (for up to 5 people)
+    csvwriter.writerow([f"name{i+1}" for i in range(5)] + [f"email{i+1}" for i in range(5)])
+
+    # Write each group, padding smaller groups with empty strings
+    for group in all_pairs:
+        padded_group = group + [""] * (5 - len(group))  # Ensures every row has 5 members
+        csvwriter.writerow(padded_group)
+
+print(f"✅ Groups saved to {all_pairs_csv}")
+
+
