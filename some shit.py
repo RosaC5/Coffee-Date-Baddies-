@@ -114,17 +114,28 @@ with open("used_starters.csv", "w", newline="") as file:
     for starter in used_starters:
         writer.writerow([starter])
 
+
 # Save new pairs to a text file
-output_file_path = r"C:\Users\User\Documents\Coffee_Partner_Lottery_new_pairs.txt"
+output_file_path = r"C:\Users\YourUsername\Documents\Coffee_Partner_Lottery_new_pairs.txt"
 
 with open(output_file_path, "w", encoding="utf-8") as file:
     file.write("------------------------\n")
-    file.write("⋆˚✿˖°  Coffee Mates :\n")
+    file.write("Your Coffee Mates:\n")
     file.write("------------------------\n")
+    
     for group in new_pairs:
-        file.write("⋆ " + "," .join(group) + "\n")
+        # For each email in the group, lookup the name in the dataframe
+        group_names = []
+        for email in group:
+            name = df[df['Email address'] == email].iloc[0]['Name']  # Get the name associated with the email
+            group_names.append(name)
+        
+        # Write the names of the participants to the file
+        file.write(", ".join(group_names) + "\n")
+    
     file.write(f"\nFun Conversation Starter: {fun_starter}\n")
     file.write(f"Below the Surface Conversation Starter: {below_surface_starter}\n")
+
 
 # Print output to console
 output_string = "\n------------------------\n"
@@ -139,10 +150,11 @@ for group in all_pairs:
         if i < len(group) - 1:
             output_string += name_email_pair + ", "
         else:
-            output_string += name_email_pair + "\n" + "\n"
+            output_string += name_email_pair + "\n" + "\n" 
 
 output_string += f"\n \033[1mFun Conversation Starter\033[0m : {fun_starter}\n"
 output_string += f" \033[1mBelow the Surface Conversation Starter\033[0m : {below_surface_starter}\n"
 
 print(output_string)
 print(f"Groups saved to {output_file_path}")
+

@@ -1,3 +1,10 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Tue Mar 11 22:01:17 2025
+
+@author: User
+"""
+
 import pandas as pd
 import random 
 import csv
@@ -13,7 +20,6 @@ try:
             old_pairs.add(tuple(row))
 except FileNotFoundError:
     print("No previous pairs found. Creating new groups.")
-    
 
 # Import responses
 form = "https://docs.google.com/spreadsheets/d/e/2PACX-1vS6qlLaBzBmalJO89WuAXfnY3RmS7JBGP5hSMWWTs6tVwQ-z_Wfz_Lw3GqB9QxBxPps6xp0KB2yVZ7b/pub?gid=1234636299&single=true&output=csv"
@@ -34,12 +40,11 @@ except FileNotFoundError:
     pass  # No used starters yet
 
 # Determine group size
-group_size = int(input("What size do you want the groups to be? (2-5)")) 
+group_size = int(input("What size do you want the groups to be? (2-5)"))
 
 # Get participant list
 all_participants = df["Email address"].tolist()
 num_participants = len(all_participants)
-single = num_participants % group_size
 
 # Attempt to find unique pairs
 new_pairs_found = False
@@ -54,26 +59,22 @@ while not new_pairs_found and tries < 10:
     pair = []
 
     while len(participants) > 0:
-        if single == 1 and len(participants) == 2:
-            if group_size > 2:
-                pair.sort()
-                all_pairs.add(tuple(pair))
-                pair = []
-            pair.append(participants.pop())
-            pair.append(participants.pop())
-        else:
-            person = random.choice(participants)
-            participants.remove(person)
-            pair.append(person)
-            if len(pair) >= group_size:
-                pair.sort()
-                all_pairs.add(tuple(pair))
-                pair = []
+        # Adjust logic for different group sizes
+        person = random.choice(participants)
+        participants.remove(person)
+        pair.append(person)
+        
+        if len(pair) >= group_size:  # When group size is reached
+            pair.sort()  # Sort to avoid duplicate pairs
+            all_pairs.add(tuple(pair))
+            pair = []  # Reset the pair for the next group
 
+    # If there are any remaining people in the pair, add them as a final group
     if len(pair) > 0:
         pair.sort()
         all_pairs.add(tuple(pair))
 
+    # Ensure there are no duplicate pairs
     if old_pairs.isdisjoint(all_pairs):
         new_pairs_found = True
         new_pairs = all_pairs  # Save the first successful round
@@ -81,7 +82,7 @@ while not new_pairs_found and tries < 10:
 # If no unique pairs found after 10 tries, print message & exit
 if not new_pairs_found:
     print("No more unique pairs found after 10 attempts.")
-    sys.exit()
+    exit()
 
 # Save new pairs to the old_pairs.csv file
 with open("old_pairs.csv", "a+", newline="") as file:
@@ -119,7 +120,7 @@ output_file_path = r"C:\Users\User\Documents\Coffee_Partner_Lottery_new_pairs.tx
 
 with open(output_file_path, "w", encoding="utf-8") as file:
     file.write("------------------------\n")
-    file.write("⋆˚✿˖°  Coffee Mates :\n")
+    file.write("⋆˚✿˖°  Espresso Express Groups ⋆˚✿˖°  :\n")
     file.write("------------------------\n")
     for group in new_pairs:
         file.write("⋆ " + "," .join(group) + "\n")
@@ -128,7 +129,7 @@ with open(output_file_path, "w", encoding="utf-8") as file:
 
 # Print output to console
 output_string = "\n------------------------\n"
-output_string += "⋆ Coffee Mates ⋆ :\n"
+output_string += "⋆ Espresso Express Groups ⋆ :\n"
 output_string += "------------------------\n"
 
 for group in all_pairs:
