@@ -9,7 +9,9 @@ import pandas as pd
 import random 
 import csv
 import copy
-import sys
+import csv
+
+csv.field_size_limit(10_000_000)
 
 # Load old pairs from CSV
 old_pairs = set()
@@ -116,7 +118,7 @@ with open("used_starters.csv", "w", newline="") as file:
         writer.writerow([starter])
 
 # Save new pairs to a text file
-output_file_path = r"C:\Users\User\Documents\Coffee_Partner_Lottery_new_pairs.txt"
+output_file_path = "Coffee_Partner_Lottery_new_pairs.txt"
 
 with open(output_file_path, "w", encoding="utf-8") as file:
     file.write("------------------------\n")
